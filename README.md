@@ -83,11 +83,14 @@ npm run dev
 
 ### GET /announcements
 
-| Параметр | Тип   | Опис                                            |
-| -------- | ----- | ----------------------------------------------- |
-| `search` | query | Пошук по назві (нечутливий до регістру)         |
-| `sort`   | query | `newest` (за замовчуванням) або `oldest`        |
-| `page`   | query | Номер сторінки (число > 0), 10 записів/сторінка |
+| Параметр  | Тип   | Опис                                                             |
+| --------- | ----- | ---------------------------------------------------------------- |
+| `search`  | query | Пошук по назві (нечутливий до регістру)                          |
+| `sortBy`  | query | Поле сортування: `createdAt`, `price`, `title`                   |
+| `order`   | query | Напрямок сортування: `asc` або `desc` (за замовчуванням `desc`)  |
+| `page`    | query | Номер сторінки (число > 0)                                       |
+| `limit`   | query | Кількість записів на сторінці (за замовчуванням 10, максимум 100)|
+| `category`| query | Фільтр за категорією: `sale`, `service`, `job`, `other`          |
 
 ### POST /auth/register
 
@@ -120,13 +123,13 @@ boilerplate/
 ├── src/
 │   ├── controllers/
 │   │   ├── auth.controller.ts
-│   │   └── announcements.controller.ts
+│   │   └── announcement.controller.ts
 │   ├── middleware/
 │   │   ├── authenticate.ts
 │   │   └── validate.ts
 │   ├── routes/
 │   │   ├── auth.routes.ts
-│   │   └── announcements.routes.ts
+│   │   └── announcement.routes.ts
 │   ├── validators/
 │   │   ├── auth.validator.ts
 │   │   └── announcements.validator.ts
@@ -175,3 +178,9 @@ Swagger UI доступний за адресою: http://localhost:3000/api-doc
 ## Ліцензія
 
 ISC
+
+---
+
+## 👩‍💻 Author
+
+**Olha Kyryllova**
