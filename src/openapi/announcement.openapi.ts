@@ -2,8 +2,9 @@ import { z } from "zod";
 
 import { registry } from "./registry.ts";
 
-
+// =========================
 // GET ALL ANNOUNCEMENTS
+// =========================
 
 registry.registerPath({
   method: "get",
@@ -56,8 +57,9 @@ registry.registerPath({
   },
 });
 
-
+// =========================
 // GET ONE ANNOUNCEMENT
+// =========================
 
 registry.registerPath({
   method: "get",
@@ -81,8 +83,9 @@ registry.registerPath({
   },
 });
 
-
+// =========================
 // CREATE ANNOUNCEMENT
+// =========================
 
 registry.registerPath({
   method: "post",
@@ -99,28 +102,45 @@ registry.registerPath({
     body: {
       content: {
         "multipart/form-data": {
-          schema: z.object({
-            title: z.string(),
+          schema: {
+            type: "object",
 
-            description: z.string(),
+            properties: {
+              title: {
+                type: "string",
+              },
 
-            price: z.coerce.number(),
+              description: {
+                type: "string",
+              },
 
-            category: z.enum([
-              "sale",
-              "service",
-              "job",
-              "other",
-            ]),
+              price: {
+                type: "number",
+              },
 
-            image: z
-              .any()
-              .optional()
-              .openapi({
+              category: {
+                type: "string",
+                enum: [
+                  "sale",
+                  "service",
+                  "job",
+                  "other",
+                ],
+              },
+
+              image: {
                 type: "string",
                 format: "binary",
-              }),
-          }),
+              },
+            },
+
+            required: [
+              "title",
+              "description",
+              "price",
+              "category",
+            ],
+          },
         },
       },
     },
@@ -137,8 +157,9 @@ registry.registerPath({
   },
 });
 
-
+// =========================
 // UPDATE ANNOUNCEMENT
+// =========================
 
 registry.registerPath({
   method: "patch",
@@ -159,28 +180,38 @@ registry.registerPath({
     body: {
       content: {
         "multipart/form-data": {
-          schema: z.object({
-            title: z.string().optional(),
+          schema: {
+            type: "object",
 
-            description: z.string().optional(),
+            properties: {
+              title: {
+                type: "string",
+              },
 
-            price: z.coerce.number().optional(),
+              description: {
+                type: "string",
+              },
 
-            category: z.enum([
-              "sale",
-              "service",
-              "job",
-              "other",
-            ]).optional(),
+              price: {
+                type: "number",
+              },
 
-            image: z
-              .any()
-              .optional()
-              .openapi({
+              category: {
+                type: "string",
+                enum: [
+                  "sale",
+                  "service",
+                  "job",
+                  "other",
+                ],
+              },
+
+              image: {
                 type: "string",
                 format: "binary",
-              }),
-          }),
+              },
+            },
+          },
         },
       },
     },
@@ -201,8 +232,9 @@ registry.registerPath({
   },
 });
 
-
+// =========================
 // DELETE ANNOUNCEMENT
+// =========================
 
 registry.registerPath({
   method: "delete",

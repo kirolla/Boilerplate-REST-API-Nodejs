@@ -20,6 +20,7 @@ export const createAnnouncementSchema = z.object({
     .min(10),
 
   price: z
+    .coerce
     .number()
     .positive(),
 
@@ -27,14 +28,7 @@ export const createAnnouncementSchema = z.object({
 });
 
 export const updateAnnouncementSchema =
-  createAnnouncementSchema
-    .partial()
-    .refine(
-      (data) => Object.keys(data).length > 0,
-      {
-        message: "At least one field is required",
-      },
-    );
+  createAnnouncementSchema.partial();
 
 export type CreateAnnouncementDto =
   z.infer<typeof createAnnouncementSchema>;
@@ -43,11 +37,25 @@ export type UpdateAnnouncementDto =
   z.infer<typeof updateAnnouncementSchema>;
 
 export const getAnnouncementsSchema = z.object({
-  page: z.coerce.number().int().positive().default(1),
+  page: z
+    .coerce
+    .number()
+    .int()
+    .positive()
+    .default(1),
 
-  limit: z.coerce.number().int().positive().max(100).default(10),
+  limit: z
+    .coerce
+    .number()
+    .int()
+    .positive()
+    .max(100)
+    .default(10),
 
-  search: z.string().trim().optional(),
+  search: z
+    .string()
+    .trim()
+    .optional(),
 
   category: categoryEnum.optional(),
 

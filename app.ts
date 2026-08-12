@@ -6,6 +6,7 @@ import type {
   Request,
   Response,
 } from "express";
+
 import swaggerUi from "swagger-ui-express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -14,8 +15,10 @@ import { pinoHttp } from "pino-http";
 
 import logger from "./src/logger.ts";
 import { generateOpenApiDocument } from "./src/openapi.ts";
+
 import authRoutes from "./src/routes/auth.routes.ts";
 import announcementRoutes from "./src/routes/announcement.routes.ts";
+
 
 const app = express();
 
@@ -26,6 +29,7 @@ const app = express();
 
 app.use(helmet());
 
+
 const allowedOrigins = (
   process.env.ALLOWED_ORIGINS || ""
 )
@@ -33,11 +37,10 @@ const allowedOrigins = (
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests without Origin header
-      // (Postman, server-to-server requests, etc.)
       if (!origin) {
         return callback(null, true);
       }
@@ -78,15 +81,28 @@ app.use(cookieParser());
 // =========================
 
 app.use("/auth", authRoutes);
-app.use("/announcements", announcementRoutes);
+
+app.use(
+  "/announcements",
+  announcementRoutes,
+);
 
 
 // =========================
-// SWAGGER
+// OPENAPI / SWAGGER
 // =========================
 
 const openApiDocument =
   generateOpenApiDocument();
+
+
+app.get(
+  "/openapi.json",
+  (_req: Request, res: Response) => {
+    res.json(openApiDocument);
+  },
+);
+
 
 app.use(
   "/api-docs",
@@ -136,7 +152,9 @@ app.use(
 // SERVER
 // =========================
 
-const PORT = process.env.PORT || 3000;
+const PORT =
+  process.env.PORT || 3000;
+
 
 app.listen(PORT, () => {
   logger.info(

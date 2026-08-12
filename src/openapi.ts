@@ -7,10 +7,11 @@ import { z } from "zod";
 
 import { registry } from "./openapi/registry.ts";
 
-import "./openapi/announcement.openapi.ts";
-
-
+// Сначала подключаем OpenAPI к Zod
 extendZodWithOpenApi(z);
+
+// И только после этого загружаем схемы
+await import("./openapi/announcement.openapi.ts");
 
 
 export function generateOpenApiDocument() {
