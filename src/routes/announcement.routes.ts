@@ -8,13 +8,9 @@ import {
   deleteAnnouncement,
 } from "../controllers/announcement.controller.ts";
 
-import {
-  authenticate,
-} from "../middleware/authenticate.ts";
+import { authenticate } from "../middleware/authenticate.ts";
 
-import {
-  validate,
-} from "../middleware/validate.ts";
+import { validate } from "../middleware/validate.ts";
 
 import {
   createAnnouncementSchema,
@@ -22,6 +18,7 @@ import {
   getAnnouncementsSchema,
 } from "../validators/announcements.validator.ts";
 
+import { upload } from "../middleware/upload.ts";
 
 const router = Router();
 
@@ -48,6 +45,7 @@ router.get(
 router.post(
   "/",
   authenticate,
+  upload.single("image"),
   validate(createAnnouncementSchema),
   createAnnouncement,
 );
@@ -58,6 +56,7 @@ router.post(
 router.patch(
   "/:id",
   authenticate,
+  upload.single("image"),
   validate(updateAnnouncementSchema),
   updateAnnouncement,
 );

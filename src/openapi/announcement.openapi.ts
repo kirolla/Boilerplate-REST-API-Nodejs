@@ -29,7 +29,12 @@ registry.registerPath({
 
       search: z.string().optional(),
 
-      category: z.string().optional(),
+      category: z.enum([
+        "sale",
+        "service",
+        "job",
+        "other",
+      ]).optional(),
 
       sortBy: z.enum([
         "createdAt",
@@ -93,15 +98,28 @@ registry.registerPath({
   request: {
     body: {
       content: {
-        "application/json": {
+        "multipart/form-data": {
           schema: z.object({
             title: z.string(),
 
             description: z.string(),
 
-            price: z.number(),
+            price: z.coerce.number(),
 
-            category: z.string(),
+            category: z.enum([
+              "sale",
+              "service",
+              "job",
+              "other",
+            ]),
+
+            image: z
+              .any()
+              .optional()
+              .openapi({
+                type: "string",
+                format: "binary",
+              }),
           }),
         },
       },
@@ -140,15 +158,28 @@ registry.registerPath({
 
     body: {
       content: {
-        "application/json": {
+        "multipart/form-data": {
           schema: z.object({
             title: z.string().optional(),
 
             description: z.string().optional(),
 
-            price: z.number().optional(),
+            price: z.coerce.number().optional(),
 
-            category: z.string().optional(),
+            category: z.enum([
+              "sale",
+              "service",
+              "job",
+              "other",
+            ]).optional(),
+
+            image: z
+              .any()
+              .optional()
+              .openapi({
+                type: "string",
+                format: "binary",
+              }),
           }),
         },
       },
@@ -162,6 +193,10 @@ registry.registerPath({
 
     403: {
       description: "Not owner",
+    },
+
+    404: {
+      description: "Announcement not found",
     },
   },
 });
@@ -193,6 +228,10 @@ registry.registerPath({
 
     403: {
       description: "Not owner",
+    },
+
+    404: {
+      description: "Announcement not found",
     },
   },
 });

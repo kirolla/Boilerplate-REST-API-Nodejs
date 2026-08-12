@@ -101,6 +101,7 @@ export const AnnouncementScalarFieldEnum = {
   description: 'description',
   price: 'price',
   category: 'category',
+  imageUrl: 'imageUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   authorId: 'authorId'
@@ -123,4 +124,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

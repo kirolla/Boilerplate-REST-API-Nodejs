@@ -1,6 +1,7 @@
 import { Router } from "express";
+import rateLimit from "express-rate-limit";
 
-import type { AuthRequest } from "../middleware/authenticate.ts"; 
+import type { AuthRequest } from "../middleware/authenticate.ts";
 
 import {
   register,
@@ -17,9 +18,17 @@ import {
   loginSchema,
 } from "../validators/auth.validator.ts";
 
-
 const router = Router();
 
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  message: {
+    message: "Too many requests, please try again later",
+  },
+});
+
+router.use(authLimiter);
 
 router.post(
   "/register",
@@ -27,27 +36,22 @@ router.post(
   register,
 );
 
-
 router.post(
   "/login",
   validate(loginSchema),
   login,
 );
 
-
 router.post(
   "/refresh",
   refresh,
 );
-
 
 router.post(
   "/logout",
   logout,
 );
 
-
-// Protected route
 router.get(
   "/me",
   authenticate,
@@ -55,6 +59,5 @@ router.get(
     res.json(req.user);
   },
 );
-
 
 export default router;

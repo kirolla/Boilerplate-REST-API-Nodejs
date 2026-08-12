@@ -44,6 +44,7 @@ export type AnnouncementMinAggregateOutputType = {
   description: string | null
   price: number | null
   category: $Enums.Category | null
+  imageUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
   authorId: number | null
@@ -55,6 +56,7 @@ export type AnnouncementMaxAggregateOutputType = {
   description: string | null
   price: number | null
   category: $Enums.Category | null
+  imageUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
   authorId: number | null
@@ -66,6 +68,7 @@ export type AnnouncementCountAggregateOutputType = {
   description: number
   price: number
   category: number
+  imageUrl: number
   createdAt: number
   updatedAt: number
   authorId: number
@@ -91,6 +94,7 @@ export type AnnouncementMinAggregateInputType = {
   description?: true
   price?: true
   category?: true
+  imageUrl?: true
   createdAt?: true
   updatedAt?: true
   authorId?: true
@@ -102,6 +106,7 @@ export type AnnouncementMaxAggregateInputType = {
   description?: true
   price?: true
   category?: true
+  imageUrl?: true
   createdAt?: true
   updatedAt?: true
   authorId?: true
@@ -113,6 +118,7 @@ export type AnnouncementCountAggregateInputType = {
   description?: true
   price?: true
   category?: true
+  imageUrl?: true
   createdAt?: true
   updatedAt?: true
   authorId?: true
@@ -211,6 +217,7 @@ export type AnnouncementGroupByOutputType = {
   description: string
   price: number
   category: $Enums.Category
+  imageUrl: string | null
   createdAt: Date
   updatedAt: Date
   authorId: number
@@ -245,6 +252,7 @@ export type AnnouncementWhereInput = {
   description?: Prisma.StringFilter<"Announcement"> | string
   price?: Prisma.FloatFilter<"Announcement"> | number
   category?: Prisma.EnumCategoryFilter<"Announcement"> | $Enums.Category
+  imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   authorId?: Prisma.IntFilter<"Announcement"> | number
@@ -257,6 +265,7 @@ export type AnnouncementOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -272,6 +281,7 @@ export type AnnouncementWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Announcement"> | string
   price?: Prisma.FloatFilter<"Announcement"> | number
   category?: Prisma.EnumCategoryFilter<"Announcement"> | $Enums.Category
+  imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   authorId?: Prisma.IntFilter<"Announcement"> | number
@@ -284,6 +294,7 @@ export type AnnouncementOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -303,6 +314,7 @@ export type AnnouncementScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
   price?: Prisma.FloatWithAggregatesFilter<"Announcement"> | number
   category?: Prisma.EnumCategoryWithAggregatesFilter<"Announcement"> | $Enums.Category
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Announcement"> | Date | string
   authorId?: Prisma.IntWithAggregatesFilter<"Announcement"> | number
@@ -313,6 +325,7 @@ export type AnnouncementCreateInput = {
   description: string
   price: number
   category: $Enums.Category
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutAnnouncementsInput
@@ -324,6 +337,7 @@ export type AnnouncementUncheckedCreateInput = {
   description: string
   price: number
   category: $Enums.Category
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
@@ -334,6 +348,7 @@ export type AnnouncementUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutAnnouncementsNestedInput
@@ -345,6 +360,7 @@ export type AnnouncementUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -356,6 +372,7 @@ export type AnnouncementCreateManyInput = {
   description: string
   price: number
   category: $Enums.Category
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
@@ -366,6 +383,7 @@ export type AnnouncementUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -376,6 +394,7 @@ export type AnnouncementUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -397,6 +416,7 @@ export type AnnouncementCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -414,6 +434,7 @@ export type AnnouncementMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -425,6 +446,7 @@ export type AnnouncementMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -490,11 +512,16 @@ export type EnumCategoryFieldUpdateOperationsInput = {
   set?: $Enums.Category
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type AnnouncementCreateWithoutAuthorInput = {
   title: string
   description: string
   price: number
   category: $Enums.Category
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -505,6 +532,7 @@ export type AnnouncementUncheckedCreateWithoutAuthorInput = {
   description: string
   price: number
   category: $Enums.Category
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -544,6 +572,7 @@ export type AnnouncementScalarWhereInput = {
   description?: Prisma.StringFilter<"Announcement"> | string
   price?: Prisma.FloatFilter<"Announcement"> | number
   category?: Prisma.EnumCategoryFilter<"Announcement"> | $Enums.Category
+  imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   authorId?: Prisma.IntFilter<"Announcement"> | number
@@ -555,6 +584,7 @@ export type AnnouncementCreateManyAuthorInput = {
   description: string
   price: number
   category: $Enums.Category
+  imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -564,6 +594,7 @@ export type AnnouncementUpdateWithoutAuthorInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -574,6 +605,7 @@ export type AnnouncementUncheckedUpdateWithoutAuthorInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -584,6 +616,7 @@ export type AnnouncementUncheckedUpdateManyWithoutAuthorInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   category?: Prisma.EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -596,6 +629,7 @@ export type AnnouncementSelect<ExtArgs extends runtime.Types.Extensions.Internal
   description?: boolean
   price?: boolean
   category?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
@@ -608,6 +642,7 @@ export type AnnouncementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   description?: boolean
   price?: boolean
   category?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
@@ -620,6 +655,7 @@ export type AnnouncementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   description?: boolean
   price?: boolean
   category?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
@@ -632,12 +668,13 @@ export type AnnouncementSelectScalar = {
   description?: boolean
   price?: boolean
   category?: boolean
+  imageUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
 }
 
-export type AnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "price" | "category" | "createdAt" | "updatedAt" | "authorId", ExtArgs["result"]["announcement"]>
+export type AnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "price" | "category" | "imageUrl" | "createdAt" | "updatedAt" | "authorId", ExtArgs["result"]["announcement"]>
 export type AnnouncementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -659,6 +696,7 @@ export type $AnnouncementPayload<ExtArgs extends runtime.Types.Extensions.Intern
     description: string
     price: number
     category: $Enums.Category
+    imageUrl: string | null
     createdAt: Date
     updatedAt: Date
     authorId: number
@@ -1091,6 +1129,7 @@ export interface AnnouncementFieldRefs {
   readonly description: Prisma.FieldRef<"Announcement", 'String'>
   readonly price: Prisma.FieldRef<"Announcement", 'Float'>
   readonly category: Prisma.FieldRef<"Announcement", 'Category'>
+  readonly imageUrl: Prisma.FieldRef<"Announcement", 'String'>
   readonly createdAt: Prisma.FieldRef<"Announcement", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Announcement", 'DateTime'>
   readonly authorId: Prisma.FieldRef<"Announcement", 'Int'>

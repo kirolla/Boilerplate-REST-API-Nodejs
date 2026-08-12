@@ -14,6 +14,8 @@ import {
   generateRefreshToken,
 } from "../utils/token.ts";
 
+import logger from "../logger.ts";
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
@@ -71,10 +73,22 @@ export async function register(
       },
     });
 
-    return res.status(201).json(user);
+    // Log successful registration
+    logger.info(
+      {
+        userId: user.id,
+        username: user.username,
+        email: user.email,
+      },
+      "New user registered",
+    );
 
+    return res.status(201).json(user);
   } catch (error) {
-    console.error("REGISTER ERROR:", error);
+    logger.error(
+      error,
+      "Registration error",
+    );
 
     return res.status(500).json({
       error: "Internal server error",
@@ -133,6 +147,15 @@ export async function login(
       },
     });
 
+    // Log successful login
+    logger.info(
+      {
+        userId: user.id,
+        username: user.username,
+      },
+      "User logged in",
+    );
+
     return res.json({
       accessToken,
       refreshToken,
@@ -143,9 +166,11 @@ export async function login(
         name: user.name,
       },
     });
-
   } catch (error) {
-    console.error("LOGIN ERROR:", error);
+    logger.error(
+      error,
+      "Login error",
+    );
 
     return res.status(500).json({
       error: "Internal server error",
@@ -194,9 +219,11 @@ export async function refresh(
     return res.json({
       accessToken,
     });
-
   } catch (error) {
-    console.error("REFRESH ERROR:", error);
+    logger.error(
+      error,
+      "Refresh token error",
+    );
 
     return res.status(401).json({
       message: "Invalid refresh token",
@@ -224,9 +251,11 @@ export async function logout(
     return res.json({
       message: "Logged out",
     });
-
   } catch (error) {
-    console.error("LOGOUT ERROR:", error);
+    logger.error(
+      error,
+      "Logout error",
+    );
 
     return res.status(500).json({
       error: "Internal server error",

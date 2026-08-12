@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx app.ts",
-    "dev": "tsx --watch app.ts",
-    "prisma:migrate": "npx prisma migrate dev",
-    "prisma:generate": "npx prisma generate"
-  },
+  "start": "tsx app.ts",
+  "dev": "tsx --watch app.ts",
+  "prisma:migrate": "npx prisma migrate dev",
+  "prisma:generate": "npx prisma generate",
+  "test": "vitest"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
