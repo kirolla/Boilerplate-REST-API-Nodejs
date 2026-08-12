@@ -24,6 +24,7 @@ if (!JWT_SECRET) {
 
 const jwtSecret: string = JWT_SECRET;
 
+
 // REGISTER
 
 export async function register(
@@ -33,18 +34,19 @@ export async function register(
   try {
     const data = req.body as RegisterDto;
 
-    const existingUser = await prisma.user.findFirst({
-      where: {
-        OR: [
-          {
-            username: data.username,
-          },
-          {
-            email: data.email,
-          },
-        ],
-      },
-    });
+    const existingUser =
+      await prisma.user.findFirst({
+        where: {
+          OR: [
+            {
+              username: data.username,
+            },
+            {
+              email: data.email,
+            },
+          ],
+        },
+      });
 
     if (existingUser) {
       return res.status(409).json({
@@ -52,41 +54,43 @@ export async function register(
       });
     }
 
-    const passwordHash = await bcrypt.hash(
-      data.password,
-      10,
-    );
+    const passwordHash =
+      await bcrypt.hash(data.password, 10);
 
-    const user = await prisma.user.create({
-      data: {
-        username: data.username,
-        email: data.email,
-        name: data.name,
-        passwordHash,
-      },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        name: true,
-        createdAt: true,
-      },
-    });
+    const user =
+      await prisma.user.create({
+        data: {
+          username: data.username,
+          email: data.email,
+          name: data.name,
+          passwordHash,
+        },
 
-    // Log successful registration
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          name: true,
+          createdAt: true,
+        },
+      });
+
     logger.info(
       {
         userId: user.id,
         username: user.username,
-        email: user.email,
       },
       "New user registered",
     );
 
     return res.status(201).json(user);
+
   } catch (error) {
+
     logger.error(
-      error,
+      {
+        error,
+      },
       "Registration error",
     );
 
@@ -95,6 +99,7 @@ export async function register(
     });
   }
 }
+
 
 // LOGIN
 
@@ -105,11 +110,12 @@ export async function login(
   try {
     const data = req.body as LoginDto;
 
-    const user = await prisma.user.findUnique({
-      where: {
-        username: data.username,
-      },
-    });
+    const user =
+      await prisma.user.findUnique({
+        where: {
+          username: data.username,
+        },
+      });
 
     if (!user) {
       return res.status(401).json({
@@ -117,10 +123,11 @@ export async function login(
       });
     }
 
-    const passwordValid = await bcrypt.compare(
-      data.password,
-      user.passwordHash,
-    );
+    const passwordValid =
+      await bcrypt.compare(
+        data.password,
+        user.passwordHash,
+      );
 
     if (!passwordValid) {
       return res.status(401).json({
@@ -128,26 +135,25 @@ export async function login(
       });
     }
 
-    const accessToken = generateAccessToken(
-      user.id,
-    );
+    const accessToken =
+      generateAccessToken(user.id);
 
-    const refreshToken = generateRefreshToken(
-      user.id,
-    );
+    const refreshToken =
+      generateRefreshToken(user.id);
 
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,
+
         expiresAt: new Date(
           Date.now() +
             7 * 24 * 60 * 60 * 1000,
         ),
+
         userId: user.id,
       },
     });
 
-    // Log successful login
     logger.info(
       {
         userId: user.id,
@@ -159,6 +165,7 @@ export async function login(
     return res.json({
       accessToken,
       refreshToken,
+
       user: {
         id: user.id,
         username: user.username,
@@ -166,9 +173,13 @@ export async function login(
         name: user.name,
       },
     });
+
   } catch (error) {
+
     logger.error(
-      error,
+      {
+        error,
+      },
       "Login error",
     );
 
@@ -177,6 +188,7 @@ export async function login(
     });
   }
 }
+
 
 // REFRESH TOKEN
 
@@ -206,22 +218,57 @@ export async function refresh(
       });
     }
 
-    const payload = jwt.verify(
-      refreshToken,
-      jwtSecret,
-    ) as jwt.JwtPayload;
+    // Check database expiration
+    if (
+      storedToken.expiresAt < new Date()
+    ) {
+      await prisma.refreshToken.delete({
+        where: {
+          id: storedToken.id,
+        },
+      });
+
+      return res.status(401).json({
+        message: "Refresh token expired",
+      });
+    }
+
+    const payload =
+      jwt.verify(
+        refreshToken,
+        jwtSecret,
+      ) as jwt.JwtPayload;
+
+    if (
+      typeof payload.userId !== "number"
+    ) {
+      return res.status(401).json({
+        message: "Invalid refresh token",
+      });
+    }
 
     const accessToken =
       generateAccessToken(
-        payload.userId as number,
+        payload.userId,
       );
+
+    logger.info(
+      {
+        userId: payload.userId,
+      },
+      "Access token refreshed",
+    );
 
     return res.json({
       accessToken,
     });
+
   } catch (error) {
+
     logger.error(
-      error,
+      {
+        error,
+      },
       "Refresh token error",
     );
 
@@ -230,6 +277,7 @@ export async function refresh(
     });
   }
 }
+
 
 // LOGOUT
 
@@ -248,12 +296,20 @@ export async function logout(
       });
     }
 
+    logger.info(
+      "User logged out",
+    );
+
     return res.json({
       message: "Logged out",
     });
+
   } catch (error) {
+
     logger.error(
-      error,
+      {
+        error,
+      },
       "Logout error",
     );
 
